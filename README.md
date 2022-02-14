@@ -1,4 +1,4 @@
-#Dot File Manager
+# Dot File Manager
 
 Automation of dotfiles
 
