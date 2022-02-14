@@ -1,0 +1,32 @@
+#!/bin/sh
+
+progname=$(basename "$0")
+
+remote="github.com"		# put the site you store your dotfiles on here
+user="coomitter"		# put your username on the remote you're using here
+repo="dotfiles"			# put the repository that your dotfiles are stored on here
+locl="/home/$USER/dotfiles"	# put the path of the local repository here
+
+pushurl="http://$remote/$user/$repo"
+branch="master"
+
+cfgexcludes={'gh','pulse'}
+xmdexcludes={'*.hi','*.o','*.errors','*-x86_64*'}
+
+case "$1" in
+	"put")
+	cd $locl 
+	rsync -av ~/.config/	$locl		--exclude=$cfgexcludes
+	rsync -av ~/.xmonad/	$locl/xmonad	--exclude=$xmdexcludes
+
+	rsync -av /etc/nixos/	$locl/nixos
+
+	git add .
+	git commit -m "update configuration" -m "this commit was automatically created by a script"
+	git push $pushurl $branch
+	;;
+
+	*)
+	echo "usage: $progname [put | get] [--include-nixos]"
+
+esac
