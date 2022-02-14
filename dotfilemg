@@ -10,16 +10,16 @@ locl="/home/$USER/dotfiles"	# put the path of the local repository here
 pushurl="http://$remote/$user/$repo"
 branch="master"
 
-cfgexcludes={'gh','pulse'}
-xmdexcludes={'*.hi','*.o','*.errors','*-x86_64*'}
 
 case "$1" in
 	"put")
 	cd $locl 
-	rsync -av ~/.config/	$locl		--exclude=$cfgexcludes
-	rsync -av ~/.xmonad/	$locl/xmonad	--exclude=$xmdexcludes
+	rsync -av ~/.config/	$locl		
+	rsync -av ~/.xmonad/	$locl/xmonad	
 
 	rsync -av /etc/nixos/	$locl/nixos
+
+	rm -r gh pulse
 
 	git add .
 	git commit -m "update configuration" -m "this commit was automatically created by a script"
